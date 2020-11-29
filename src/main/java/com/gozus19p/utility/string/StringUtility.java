@@ -1,18 +1,42 @@
 package com.gozus19p.utility.string;
 
+import com.gozus19p.utility.FullyTested;
+
 /**
  * @author Manuel Gozzi
  */
 public final class StringUtility {
 
-    public static String removeCharacter(String string, char character) {
-        return null;
+    private static final String NULL_POINTER_OF_REMOVE = "Trying to remove a character from null String instance";
+
+    @FullyTested
+    public static String remove(String string, char characterToRemove, boolean ignoreCase) {
+        if (isEmptyOrNull(string))
+            throw new NullPointerException(NULL_POINTER_OF_REMOVE);
+
+        return ignoreCase ? remove(
+                remove(
+                        string,
+                        Character.toUpperCase(characterToRemove)
+                ),
+                Character.toLowerCase(characterToRemove)
+        ) : remove(string, characterToRemove);
     }
 
+    public static String remove(String string, char characterToRemove) {
+
+        if (isEmptyOrNull(string))
+            throw new NullPointerException(NULL_POINTER_OF_REMOVE);
+
+        return string.replace(characterToRemove+"", "");
+    }
+
+    @FullyTested
     public static boolean isEmptyOrNull(String string) {
         return string == null || string.isEmpty();
     }
 
+    @FullyTested
     public static boolean containsOnlyWhitespace(String string) {
         if (isEmptyOrNull(string)) {
             return false;
@@ -25,6 +49,7 @@ public final class StringUtility {
         return true;
     }
 
+    @FullyTested
     public static boolean containsWhitespace(String string) {
         if (isEmptyOrNull(string)) {
             return false;
@@ -36,6 +61,16 @@ public final class StringUtility {
         return false;
     }
 
+    @FullyTested
+    public static boolean endsWith(String string, String endingString, boolean ignoreCase) {
+        if (isEmptyOrNull(string) || isEmptyOrNull(endingString)) {
+            return false;
+        }
+        return ignoreCase ? endsWith(string.toLowerCase(), endingString.toLowerCase())
+                : endsWith(string, endingString);
+    }
+
+    @FullyTested
     public static boolean endsWith(String string, String endingString) {
         if (isEmptyOrNull(string) || isEmptyOrNull(endingString)) {
             return false;
